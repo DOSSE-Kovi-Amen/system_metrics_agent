@@ -1,0 +1,51 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKERHUB_USERNAME:-changeme}/metrics-agent:latest
+    container_name: metrics-api
+    command: ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    networks:
+      - metrics-net
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${DOCKERHUB_USERNAME:-changeme}/metrics-agent:latest
+    container_name: metrics-agent
+    command: ["python", "-m", "app.agent"]
+    env_file:
+      - .env
+    environment:
+      # Entre conteneurs on utilise le nom du service Docker (résolution
+      # DNS interne au réseau "metrics-net"), jamais 127.0.0.1.
+      - METRICS_ENDPOINT=http://api:8000/metrics
+    depends_on:
+      api:
+        condition: service_healthy
+    networks:
+      - metrics-net
+    restart: unless-stopped
+
+networks:
+  metrics-net:
+    driver: bridge
