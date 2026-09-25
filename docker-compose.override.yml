@@ -1,0 +1,25 @@
+# Appliqué automatiquement par `docker compose up` en plus de
+# docker-compose.yaml (sauf si vous précisez -f pour l'ignorer).
+# Bascule les deux services en mode développement : build via
+# Dockerfile.dev, montage du code en volume, rechargement à chaud.
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: metrics-agent:dev
+    command:
+      ["uvicorn", "app.api:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - ./app:/app/app
+      - ./tests:/app/tests
+
+  agent:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: metrics-agent:dev
+    command: ["python", "-m", "app.agent"]
+    volumes:
+      - ./app:/app/app
