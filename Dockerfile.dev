@@ -9,6 +9,11 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1
 
+# ⬇️ AJOUTE CETTE LIGNE ⬇️
+RUN apt-get update && apt-get install -y --no-install-recommends procps \
+    && rm -rf /var/lib/apt/lists/*
+# ⬆️ AJOUTE CETTE LIGNE ⬆️    
+
 # Dépendances (dev + test)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

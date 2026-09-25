@@ -28,6 +28,10 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 # Dépendances déjà compilées/installées, copiées depuis le builder
 COPY --from=builder /install/deps /usr/local
 
+# Outils système nécessaires (uptime pour la charge système)
+RUN apt-get update && apt-get install -y --no-install-recommends procps \
+    && rm -rf /var/lib/apt/lists/*
+
 # Uniquement le code applicatif nécessaire à l'exécution (pas les tests,
 # pas les fichiers de config du dépôt) — cf. .dockerignore
 COPY app/ ./app/
@@ -35,6 +39,7 @@ COPY app/ ./app/
 # Utilisateur non-root dédié
 RUN useradd --create-home --uid 1000 appuser \
     && chown -R appuser:appuser /app
+    
 USER appuser
 
 EXPOSE 8000
