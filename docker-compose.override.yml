@@ -2,6 +2,7 @@
 # docker-compose.yaml (sauf si vous précisez -f pour l'ignorer).
 # Bascule les deux services en mode développement : build via
 # Dockerfile.dev, montage du code en volume, rechargement à chaud.
+# Melchior Junior 
 
 services:
   api:
