@@ -1,5 +1,6 @@
 # Dockerfile.dev — environnement de développement
 # Image de confort : dépendances complètes (incl. pytest), rechargement à chaud.
+# Melchior Junior
 
 FROM python:3.12-slim
 
