@@ -1,3 +1,9 @@
+# Groupe n10
+**-ANGO MBA Melchior Junior**
+**-DOSSE Kovi Amen**
+**-MAVIOGA Jude Tangui**
+**-SOUNGANY-IGALO Daryl Junior**
+
 # System Metrics Agent — Conteneurisation, Orchestration et Pipeline CI/CD
 
 > **Master — Éléments du DevOps** · Travail Pratique individuel
