@@ -7,7 +7,7 @@
 # définie au niveau de chaque service dans docker-compose.yaml.
 # Cela évite de dupliquer une image quasi identique et simplifie le
 # pipeline CI/CD (un seul build/push).
-
+# Daryl
 # ---------- Étape 1 : build des dépendances ----------
 FROM python:3.12-slim AS builder
 
